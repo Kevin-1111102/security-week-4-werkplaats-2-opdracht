@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Gebruikers informatie wijzigen{% endblock %}
+
+{% block content %}
+    <!-- User Update Form -->
+    <div class="container registration-container">
+        <h2 class="text-center mb-4">Gebruikers informatie wijzigen</h2>
+        <div class="card">
+            <div class="card-body">
+                <!-- Form action points to the update route with the user's ID -->
+                <form action="{{ url_for('user.user_update', user_id=user.user_id) }}" method="POST">
+                    <!-- Login (Username) -->
+                    <div class="mb-3">
+                        <label for="login" class="form-label">Wijzig gebruikersnaam:</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="login"
+                                name="login"
+                                placeholder="Gebruikersnaam"
+                                value="{{ user.login }}"
+                                required
+                        >
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Wachtwoord wijzigen:</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                placeholder="Voer een nieuw wachtwoord in"
+                                required
+                        >
+                    </div>
+
+                    <!-- Display Name -->
+                    <div class="mb-3">
+                        <label for="display_name" class="form-label">Wijzig weergavenaam:</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="display_name"
+                                name="display_name"
+                                placeholder="Weergavenaam"
+                                value="{{ user.display_name }}"
+                                required
+                        >
+                    </div>
+
+                    <!-- Admin Checkbox -->
+                    <div class="form-check mb-4">
+                        <input
+                                type="checkbox"
+                                class="form-check-input"
+                                id="is_admin"
+                                name="is_admin"
+                                {% if user.is_admin %}checked{% endif %}
+                        >
+                        <label class="form-check-label" for="is_admin">Admin</label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Opslaan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+

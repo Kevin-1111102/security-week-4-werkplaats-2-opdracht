@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Prompt details{% endblock %}
+
+{% block content %}
+    <div class="container user-info-container">
+        <div class="card shadow-sm p-4 rounded">
+            <h2 class="text-center mb-4">Prompt details</h2>
+            <!-- Title -->
+            <div class="d-flex mb-2">
+                <span class="fw-bold col-4">Naam:</span>
+                <span class="col-8">{{ prompt.title }}</span>
+            </div>
+            <!-- Prompt Content -->
+            <div class="d-flex mb-2">
+                <span class="fw-bold col-4">Prompt:</span>
+                <span class="col-8">{{ prompt.prompt }}</span>
+            </div>
+            <!-- Example JSON -->
+
+            <div class="example-json p-3 bg-light rounded overflow-auto"
+                 style="white-space: pre-wrap; word-wrap: break-word;">
+                Gebruik de taxonomie van Bloom om de volgende vraag in één van de niveaus: "Onthouden", "Begrijpen",
+                "Toepassen", "Analyseren", "Evalueren" en "Creëren", en leg uit waarom je dat niveau hebt gekozen. Geef
+                het antwoord in een RFC8259 JSON met de volgende opmaak:
+
+                {
+                "niveau": "niveau van Bloom",
+                "uitleg": "uitleg waarom dit niveau van toepassing is"
+                }
+            </div>
+
+
+            <!-- User Details -->
+            <div class="d-flex mb-2">
+                <span class="fw-bold col-4">Redacteur:</span>
+                <span class="col-8">{{ prompt.display_name }}</span>
+            </div>
+            <!-- Date -->
+            <div class="d-flex mb-2">
+                <span class="fw-bold col-4">Aangemaakt:</span>
+                <span class="col-8">{{ prompt.date }}</span>
+            </div>
+            <!-- Categorized -->
+            <div class="d-flex mb-2">
+                <span class="fw-bold col-4">Toetsvragen gecategoriseerd:</span>
+                <span class="col-8">{{ prompt.categorized }}</span>
+            </div>
+            <!-- Correct -->
+            <div class="d-flex mb-2">
+                <span class="fw-bold col-4">Toetsvragen correct:</span>
+                <span class="col-8">{{ prompt.correct }}</span>
+            </div>
+            <!-- Incorrect -->
+            <div class="d-flex mb-2">
+                <span class="fw-bold col-4">Toetsvragen incorrect:</span>
+                <span class="col-8">{{ prompt.incorrect }}</span>
+            </div>
+
+            <div class="d-flex justify-content-end mt-3">
+                <td>
+                    <a href="{{ url_for('prompt.prompt_update', prompt_id=prompt.prompts_id) }}"
+                       class="btn btn-primary btn-sm me-1">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{{ url_for('prompt.prompt_delete', prompt_id=prompt.prompts_id) }}"
+                       class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

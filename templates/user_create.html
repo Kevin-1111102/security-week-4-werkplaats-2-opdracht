@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Gebruiker registreren{% endblock %}
+
+{% block content %}
+    <!-- Registration Form -->
+    <div class="container registration-container">
+        <h2 class="text-center mb-4">Gebruiker registreren</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="{{ url_for('user.user_create') }}" method="POST">
+                    <!-- Login (Username) -->
+                    <div class="mb-3">
+                        <label for="login" class="form-label">Gebruikersnaam:</label>
+                        <input type="text" class="form-control" id="login" name="login"
+                               placeholder="Gebruikersnaam" required>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Wachtwoord:</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                               placeholder="Wachtwoord" required>
+                    </div>
+
+                    <!-- Display Name -->
+                    <div class="mb-3">
+                        <label for="display_name" class="form-label">Weergavenaam:</label>
+                        <input type="text" class="form-control" id="display_name" name="display_name"
+                               placeholder="Weergavenaam" required>
+                    </div>
+
+                    <!-- Admin Checkbox -->
+                    <div class="form-check mb-4">
+                        <input type="checkbox" class="form-check-input" id="is_admin" name="is_admin">
+                        <label class="form-check-label" for="is_admin">Is deze gebruiker een administrator?</label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">Opslaan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

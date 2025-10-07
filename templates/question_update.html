@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Wijzig vraag{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h3>Wijzig vraag</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST"
+                      action="{{ url_for('question.question_update', questions_id=question['questions_id']) }}">
+
+                    <!-- Question ID (Non-editable) -->
+                    <div class="mb-3">
+                        <label for="questions_id" class="form-label">Vraag ID</label>
+                        <input type="text" id="questions_id" name="questions_id" class="form-control"
+                               value="{{ question['questions_id'] }}" readonly>
+                    </div>
+
+                    <!-- Prompts ID -->
+                    <div class="mb-3">
+                        <label for="prompts_id" class="form-label">Prompt ID</label>
+                        <input type="text" id="prompts_id" name="prompts_id" class="form-control"
+                               value="{{ question['prompts_id'] }}" required>
+                    </div>
+
+                    <!-- User Selection -->
+                    <div class="mb-3">
+                        <label for="users_id" class="form-label">Gebruiker</label>
+                        <select id="users_id" name="users_id" class="form-select" required>
+                            {% for user in users %}
+                                <option value="{{ user['user_id'] }}"
+                                        {% if user['user_id'] == question['users_id'] %}selected{% endif %}>
+                                    {{ user['display_name'] }} (ID: {{ user['user_id'] }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Question Textarea -->
+                    <div class="mb-3">
+                        <label for="question" class="form-label">Vraag</label>
+                        <textarea id="question" name="question" class="form-control" rows="4"
+                                  required>{{ question['question'] }}</textarea>
+                    </div>
+
+                    <!-- Taxonomy Bloom -->
+                    <div class="mb-3">
+                        <label for="taxonomy_bloom" class="form-label">Taxonomie van Bloom</label>
+                        <input type="text" id="taxonomy_bloom" name="taxonomy_bloom" class="form-control"
+                               value="{{ question['taxonomy_bloom'] }}">
+                    </div>
+
+                    <!-- RTTI -->
+                    <div class="mb-3">
+                        <label for="rtti" class="form-label">RTTI</label>
+                        <input type="text" id="rtti" name="rtti" class="form-control" value="{{ question['rtti'] }}">
+                    </div>
+
+                    <!-- Checkboxes for Changes -->
+                    <div class="form-check mb-3">
+                        <input type="checkbox" id="tax_bloom_changed" name="tax_bloom_changed" class="form-check-input"
+                               {% if question['tax_bloom_changed'] %}checked{% endif %}>
+                        <label for="tax_bloom_changed" class="form-check-label">Taxonomie van Bloom gewijzigd</label>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input type="checkbox" id="rtti_changed" name="rtti_changed" class="form-check-input"
+                               {% if question['rtti_changed'] %}checked{% endif %}>
+                        <label for="rtti_changed" class="form-check-label">RTTI gewijzigd</label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Wijzigingen opslaan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

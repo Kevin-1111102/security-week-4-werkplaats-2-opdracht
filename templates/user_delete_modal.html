@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Bevestig verwijdering{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h3>Bevestig verwijdering</h3>
+        </div>
+        <div class="card-body text-center">
+            <p>Weet je zeker dat je gebruiker {{ user.login }} met ID {{ user.user_id }} wil verwijderen?</p>
+            <form method="POST">
+                <button type="submit" class="btn btn-danger">Verwijderen</button>
+                <a href="{{ url_for('user.overview') }}" class="btn btn-secondary">Annuleren</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

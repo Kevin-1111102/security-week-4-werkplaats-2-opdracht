@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Vraag aanmaken{% endblock %}
+
+{% block content %}
+    <!-- Registration Form -->
+    <div class="container registration-container">
+        <h2 class="text-center mb-4">Vraag aanmaken</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="{{ url_for('question.create_question') }}" method="POST">
+                    <!-- Vraag id -->
+                    <div class="mb-3">
+                        <label for="questions_id" class="form-label">Wat is het ID van de vraag?</label>
+                        <input type="text" class="form-control" id="questions_id" name="questions_id"
+                               placeholder="Vraag ID" required>
+                    </div>
+
+                    <!-- Vraag -->
+                    <div class="mb-3">
+                        <label for="question" class="form-label">Wat is de vraag?</label>
+                        <input type="text" class="form-control" id="question" name="question" placeholder="Vraag"
+                               required>
+                    </div>
+
+                    <!-- Antwoord -->
+                    <div class="mb-3">
+                        <label for="answer" class="form-label">Wat is het antwoord op de vraag?</label>
+                        <input type="text" class="form-control" id="answer" name="answer" placeholder="Antwoord"
+                               required>
+                    </div>
+
+                    <!-- Vak -->
+                    <div class="mb-3">
+                        <label for="subject" class="form-label">Bij welk vak hoort deze vraag?</label>
+                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Vak" required>
+                    </div>
+
+                    <!-- Onderwijsniveau -->
+                    <div class="mb-3">
+                        <label for="subject_level" class="form-label">Bij welk onderwijsniveau hoort deze vraag?</label>
+                        <input type="text" class="form-control" id="subject_level" name="subject_level"
+                               placeholder="Onderwijs niveau" required>
+                    </div>
+
+                    <!-- Leerjaar -->
+                    <div class="mb-3">
+                        <label for="grade" class="form-label">Bij welk leerjaar hoor deze vraag?</label>
+                        <input type="text" class="form-control" id="grade" name="grade" placeholder="Leerjaar" required>
+                    </div>
+
+                    <!-- Opslaan -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">Opslaan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

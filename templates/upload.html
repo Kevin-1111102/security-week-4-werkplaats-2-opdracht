@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Importeer JSON bestand{% endblock %}
+
+{% block content %}
+    <h1>Importeer JSON-bestand</h1>
+    <form action="/question/upload" method="post" enctype="multipart/form-data"
+          style="display: flex; flex-direction: column; gap: 10px; max-width: 300px;">
+        <label for="file">Selecteer het JSON-bestand om te uploaden:</label>
+        <input type="file" id="file" name="file" accept=".json" required>
+        <button type="submit" class="btn btn-success">Uploaden</button>
+    </form>
+
+    <!-- Display errors or success -->
+    {% if result and result.error %}
+        <div style="margin-top: 15px; color: red;">
+            <h3>Waarschuwing:</h3>
+            <p>{{ result.error }}</p>
+        </div>
+    {% elif result and result.success %}
+        <div style="margin-top: 15px; color: green;">
+            <h3>Success:</h3>
+            <p>{{ result.success }}</p>
+        </div>
+    {% endif %}
+
+    <div style="margin-top: 15px;">
+        <a href="{{ url_for('question.question_overview') }}">
+            <button class="btn btn-primary">Terug naar overzicht</button>
+        </a>
+    </div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Nieuwe Prompt{% endblock %}
+
+{% block content %}
+    <!-- Registration Form -->
+    <div class="container registration-container">
+        <h2 class="text-center mb-4">Nieuwe Prompt</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="{{ url_for('prompt.prompt_create') }}" method="POST">
+
+                    <!-- Title  -->
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Voer een prompt naam in</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Prompt naam"
+                               required>
+                    </div>
+
+                    <!-- Prompt -->
+                    <div class="mb-3">
+                        <label for="prompt" class="form-label">Wat moet er in de prompt staan?</label>
+                        <textarea class="form-control" id="prompt" name="prompt" placeholder="Prompt inhoud" rows="3"
+                                  required></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">Opslaan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
