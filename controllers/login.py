@@ -15,8 +15,8 @@ def login():
             username = request.form.get('username')
             password = request.form.get('password')
             user = User()
-            hashed_password = hash_password(password)
-            is_checked = user.check_pass(username, hashed_password)
+            is_checked = user.check_pass(username, password)
+
 
             if is_checked:
 
@@ -38,3 +38,4 @@ def logout():
     session.pop('is_admin', None)
     session.clear()
     return redirect(url_for('login.login'))
+
