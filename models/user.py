@@ -1,5 +1,6 @@
 from models.database import Database
-
+from lib.helpers import hash_password, verify_password
+import hashlib
 
 class User:
     def __init__(self):
@@ -12,7 +13,6 @@ class User:
         return data[0] if data else 0
 
     def get_all_users(self, page, per_page, filters=None):
-
         offset = (page - 1) * per_page
 
         query_get_users = "SELECT * FROM users WHERE 1=1"
@@ -20,7 +20,6 @@ class User:
         params = []
 
         if filters:
-            # Apply filters
             if filters.get("user_id"):
                 query_get_users += " AND user_id LIKE ?"
                 query_get_total_users += " AND user_id LIKE ?"
@@ -45,7 +44,6 @@ class User:
         query_get_users += " LIMIT ? OFFSET ?"
         params_get_users = params + [per_page, offset]
 
-        # Execute the query
         self.cursor.execute(query_get_users, params_get_users)
         result = self.cursor.fetchall()
 
@@ -54,16 +52,24 @@ class User:
 
         return result, total_users
 
-    def check_pass(self, user, password):
-        self.cursor.execute("SELECT * FROM users WHERE login=?", (user,))
-        data = self.cursor.fetchone()
-        if data:
-            self.cursor.execute("SELECT password FROM users WHERE login=?", (user,))
-            result = self.cursor.fetchone()
-            if result['password'] == password:
-                return True
-        else:
+    def check_pass(self, username, password):
+        self.cursor.execute("SELECT password FROM users WHERE login=?", (username,))
+        user = self.cursor.fetchone()
+        if not user:
             return False
+        stored_hash = user['password']
+
+        if len(stored_hash) == 64:
+            old_hash = hashlib.sha256(("static_salt_12345" + password).encode()).hexdigest()
+            if old_hash == stored_hash:
+                new_hash = hash_password(password)
+                self.cursor.execute("UPDATE users SET password=? WHERE login=?", (new_hash, username))
+                self.con.commit()
+                return True
+            else:
+                return False
+        else:
+            return verify_password(stored_hash, password)
 
     def get_user_by_name(self, login):
         self.cursor.execute("SELECT * FROM users WHERE login=?", (login,))
@@ -83,29 +89,20 @@ class User:
         return True
 
     def update_user(self, user_id, login, password, display_name, is_admin):
-        try:
-            user = self.get_single_user(user_id)
-
-            if not user:
-                print(f"User with ID {user_id} not found.")
-                return None
-
-            self.cursor.execute("""
-                UPDATE users
-                SET login = ?, password = ?, display_name = ?, is_admin = ?
-                WHERE user_id = ?
-            """, (login, password, display_name, is_admin, user_id))
-
-            self.con.commit()
-            return True
-        except Exception as e:
-            print(f"Error updating user: {e}")
+        user = self.get_single_user(user_id)
+        if not user:
             return None
+        self.cursor.execute("""
+            UPDATE users
+            SET login = ?, password = ?, display_name = ?, is_admin = ?
+            WHERE user_id = ?
+        """, (login, password, display_name, is_admin, user_id))
+        self.con.commit()
+        return True
 
     def delete_user(self, user_id):
         self.cursor.execute("DELETE FROM users WHERE user_id=?", (str(user_id),))
         self.con.commit()
 
     def close_connection(self):
-        # Close the database connection
         self.con.close()
